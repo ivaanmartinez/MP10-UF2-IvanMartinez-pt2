@@ -25,26 +25,26 @@
     </record>
 
     <!-- Vista de cerca amb filtres personalitzats -->
-    <record id="estate_property_search_view" model="ir.ui.view">
+   <record id="estate_property_search_view" model="ir.ui.view">
         <field name="name">estate.property.search</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <search>
-                <!-- Camps de cerca -->
-                <field name="name"/> <!-- Nom -->
-                <field name="type_id"/> <!-- Tipus -->
-                <field name="postalcode"/> <!-- Codi postal -->
-                <field name="selling_price"/> <!-- Preu de venda -->
-                <field name="state"/> <!-- Estat -->
-                <field name="date_availability"/> <!-- Data de disponibilitat -->
-                
-                <!-- Filtres predefinits -->
-                <filter name="filter_available" string="Disponibles" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_received')]"/> <!-- Propietats disponibles -->
-                <filter name="filter_low_price" string="Baix preu" domain="[('selling_price', '&lt;', 100000)]"/> <!-- Propietats de baix preu -->
-                
-                <!-- Agrupació -->
+                <field name="name"/>
+                <field name="type_id"/>
+                <field name="selling_price"/>
+                <field name="postalcode"/>
+                <field name="state"/>
+                <field name="date_availability"/>
+                <filter name="filter_available" string="Disponibles" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_received')]"/>
+                <filter name="filter_low_price" string="Baix preu" domain="[('selling_price', '&lt;', 100000)]"/>
                 <group string="Agrupar per">
-                    <filter name="group_by_type" string="Tipus" domain="[]" context="{'group_by': 'type_id'}"/> <!-- Agrupar per tipus -->
+                    <filter name="group_by_name" string="Nom" context="{'group_by': 'name'}"/>
+                    <filter name="group_by_postalcode" string="Codi Postal" context="{'group_by': 'postalcode'}"/>
+                    <filter name="group_by_state" string="Estat" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_type" string="Tipus" domain="[]" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_by_selling_price" string="Preu de Venda" domain="[]" context="{'group_by': 'selling_price'}"/>
+                    <filter name="group_by_date_availability" string="Disponibilitat" context="{'group_by': 'date_availability'}"/>
                 </group>
             </search>
         </field>
@@ -59,6 +59,7 @@
                 <sheet>
                     <group>
                         <field name="name" nolabel="1" class="oe_highlight" style="font-size: 2em; font-weight: bold;"/> <!-- Nom destacat de la propietat -->
+                        <field name="tag_ids" widget="many2many_tags" options="{'no_create': True}"/> <!-- Etiquetes -->
                         <group col="3"> 
                             <field name="postalcode"/> <!-- Codi postal -->
                             <field name="date_availability"/> <!-- Data de disponibilitat -->
@@ -73,8 +74,7 @@
                             <group>
                                 <field name="description"/> <!-- Descripció de la propietat -->
                                 <group>
-                                    <group string="Característiques">
-                                        <field name="tag_ids" widget="many2many_tags" options="{'no_create': True}"/> <!-- Etiquetes -->
+                                    <group>
                                         <field name="bedrooms"/> <!-- Nombre d'habitacions -->
                                         <field name="bathrooms"/> <!-- Nombre de banys -->
                                         <field name="area"/> <!-- Àrea de la propietat -->
@@ -82,13 +82,13 @@
                                         <field name="energy_certificate"/> <!-- Certificat energètic -->
                                         <field name="user_id" options="{'no_create': True}"/> <!-- Responsable -->
                                     </group>
-                                    <group string="Característiques Clau">
+                                    <group >
                                         <field name="final_price" readonly="1"/> <!-- Preu final -->
                                         <field name="buyer_id" readonly="1"/> <!-- Comprador -->
                                         <field name="price_per_m2" readonly="1"/> <!-- Preu per metre quadrat -->
                                     </group>
                                 </group>
-                                <group string="Característiques Addicionals">
+                                <group >
                                     <field name="has_elevator"/> <!-- Té ascensor -->
                                     <field name="has_parking"/> <!-- Té aparcament -->
                                     <field name="is_renovated"/> <!-- És renovada -->
