@@ -1,0 +1,1 @@
+from . import models  # Importa els models definits en el mateix paquet
